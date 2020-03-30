@@ -94,7 +94,7 @@ if( params.gtf ){
     Channel
         .fromPath(params.gtf)
         .ifEmpty { exit 1, "GTF annotation file not found: ${params.gtf}" }
-        .into { gtf_extract_transcriptome; gtf_alevin; gtf_makeSTARindex; gtf_star; gtf_gene_map }
+        .into { gtf_extract_transcriptome; gtf_alevin; gtf_star; gtf_gene_map }
 } else if (params.aligner == 'star'){
   exit 1, "Must provide a GTF file ('--gtf') to align with STAR"
 }
@@ -114,10 +114,9 @@ if( params.fasta ){
     Channel
         .fromPath(params.fasta)
         .ifEmpty { exit 1, "Fasta file not found: ${params.fasta}" }
-        .into { genome_fasta_extract_transcriptome ; genome_fasta_makeSTARindex }
+        .into { genome_fasta_extract_transcriptome  }
 } else {
   genome_fasta_extract_transcriptome = Channel.empty()
-  genome_fasta_makeSTARindex = Channel.empty()
 }
 //Setup Transcript FastA channels
 if( params.transcript_fasta ){
