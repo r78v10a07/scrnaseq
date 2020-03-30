@@ -87,7 +87,6 @@ if( params.star_index && params.aligner == 'star' ){
     star_index = Channel
         .fromPath(params.star_index)
         .ifEmpty { exit 1, "STAR index not found: ${params.star_index}" }
-    genome_fasta_makeSTARindex = Channel.empty()
 }
 
 //Check if GTF is supplied properly
@@ -369,14 +368,15 @@ process makeSTARindex {
     publishDir path: { params.save_reference ? "${params.outdir}/reference_genome/star_index" : params.outdir },
                 saveAs: { params.save_reference ? it : null }, mode: 'copy'
 
+    when: 
+    params.aligner == 'star' && !params.star_index
+    
     input:
     file fasta from genome_fasta_makeSTARindex
     file gtf from gtf_makeSTARindex
 
     output:
     file "star" into star_index
-
-    when: params.aligner == 'star' && !params.star_index
 
     script:
     def avail_mem = task.memory ? "--limitGenomeGenerateRAM ${task.memory.toBytes() - 100000000}" : ''
