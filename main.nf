@@ -87,6 +87,7 @@ if( params.star_index && params.aligner == 'star' ){
     star_index = Channel
         .fromPath(params.star_index)
         .ifEmpty { exit 1, "STAR index not found: ${params.star_index}" }
+    genome_fasta_makeSTARindex = Channel.empty()
 }
 
 //Check if GTF is supplied properly
