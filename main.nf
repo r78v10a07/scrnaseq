@@ -375,7 +375,7 @@ process makeSTARindex {
     output:
     file "star" into star_index
 
-    when: params.aligner == 'star' && !params.star_index && params.fasta
+    when: params.aligner == 'star' && !params.star_index
 
     script:
     def avail_mem = task.memory ? "--limitGenomeGenerateRAM ${task.memory.toBytes() - 100000000}" : ''
