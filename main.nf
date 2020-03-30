@@ -376,7 +376,7 @@ process makeSTARindex {
     file gtf from gtf_makeSTARindex
 
     output:
-    file "star" into star_index
+    file "star" into star_index_created
 
     script:
     def avail_mem = task.memory ? "--limitGenomeGenerateRAM ${task.memory.toBytes() - 100000000}" : ''
